@@ -27,6 +27,7 @@ var warning = require('warning');
 var TICK = 17;
 var NO_EVENT_TIMEOUT = 5000;
 
+var noEventTimeout = null;
 var noEventListener = null;
 
 
@@ -50,7 +51,6 @@ var ReactCSSTransitionGroupChild = React.createClass({
     var node = React.findDOMNode(this);
     var className = this.props.name + '-' + animationType;
     var activeClassName = className + '-active';
-    var noEventTimeout = null;
 
     var endListener = function(e) {
       if (e && e.target !== node) {
@@ -109,6 +109,9 @@ var ReactCSSTransitionGroupChild = React.createClass({
   componentWillUnmount: function() {
     if (this.timeout) {
       clearTimeout(this.timeout);
+    }
+    if (noEventTimeout) {
+      clearTimeout(noEventTimeout);
     }
   },
 
